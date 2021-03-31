@@ -1,0 +1,7 @@
+name: "kartini"
+version: "0.0.1"
+description: "Simple package manager"
+src:
+  - git
+  - curl
+  - tar 

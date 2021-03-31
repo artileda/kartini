@@ -1,2 +1,4 @@
 (test
- (name kartini))
+ (name kartini)
+ (libraries data utils)
+ )
