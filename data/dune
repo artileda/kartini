@@ -1,0 +1,5 @@
+(library
+ (name data)
+ (libraries yaml ppx_deriving_yaml)
+ (preprocess
+  (pps ppx_deriving_yaml)))
