@@ -1,3 +1,9 @@
+(*
+
+This section responsible for package metadata
+ reflection, parsing and generation.
+
+*)
 
 type t = {
   name: string;
