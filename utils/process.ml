@@ -4,12 +4,11 @@ These section responsible for any process operation utility
 such spawning, threading and interop with system binaries.
 
 *)
-
 open Sys
-open Unix
-
 let execute_external (program: string) (program_args: string array) (env: string array) =
-  (Unix.execve program program_args env)
+  let arrayJoinStr x = String.concat " " (Array.to_list x) in 
+  
+  command ((arrayJoinStr env) ^ " " ^ program ^ " " ^ (arrayJoinStr program_args));;
 ;;
 
 module Interop = struct
