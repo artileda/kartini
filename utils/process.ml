@@ -7,8 +7,8 @@ such spawning, threading and interop with system binaries.
 open Sys
 let execute_external (program: string) (program_args: string array) (env: string array) =
   let arrayJoinStr x = String.concat " " (Array.to_list x) in 
-  
-  command ((arrayJoinStr env) ^ " " ^ program ^ " " ^ (arrayJoinStr program_args));;
+
+  command ((arrayJoinStr env) ^ " " ^ program ^ " " ^ (arrayJoinStr program_args))
 ;;
 
 module Interop = struct
