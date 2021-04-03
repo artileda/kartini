@@ -40,10 +40,10 @@ let str_to_t t =
 ;;
 
 let evaluate_src_type src_url =
-  let remote_archive = Str.regexp {|\(ftp\)\|\(http\)://.*\.\(tar\)\.\(gz\)\|\(xz\)\|\(bz\)|}in
-  let remote_file = Str.regexp {|\(\(ftp\)\|\(http\)://.*)|} in
+  let remote_archive = Str.regexp {|\(\(ftp\)\|\(http\)\|\(https\)\)://.*\.\(tar\)\.\(\(gz\)\|\(xz\)\|\(bz\)\)|}in
+  let remote_file = Str.regexp {|\(\(ftp\)\|\(http\)\|\(https\)\)://.*|} in
   (* let local_file = Str.regexp_string "" in *)
-  let git_repo = Str.regexp {|\(git\+\)://).*|} in
+  let git_repo = Str.regexp {|\(git\)://.*|} in
 
   let matched regxp url = Str.string_match regxp url 0 in
 

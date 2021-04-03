@@ -2,6 +2,9 @@
 
 Simple package administrator for *nix-land.
 
+### Dependencies
+
+- libyaml
 
 ### License
 
