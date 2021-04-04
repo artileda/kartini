@@ -61,4 +61,12 @@ let evaluate_src_type src_url =
   else if (matched git_repo src_url) then (find_repo src_url)
   else LocalFile src_url
 ;;
-  
+
+let inspect_t t = 
+  print_endline ("name: " ^ t.name);
+  print_endline ("version: " ^ t.version);
+  print_endline ("description: " ^t.description);
+  print_endline "src:";
+  List.iter (fun m -> ("\t" ^ m) |> print_endline) t.src;
+  ()
+;;
