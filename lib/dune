@@ -1,2 +1,4 @@
 (library
- (name kartini))
+ (name kartini)
+  (libraries data system utils)
+ )

@@ -5,3 +5,12 @@ src:
   - "https://github.com/"
   - "git://test"
   - "/teste"
+deps:
+  - "busybox"
+dev-deps: []
+build-script: |-
+  test
+  eueue
+  oeee
+pre-remove: ""
+post-install: ""

@@ -14,6 +14,14 @@ let execute_external (program: string) (program_args: string array) (env: string
 
 module Interop = struct
 
+  let curl_get url output =
+    (execute_external "curl" [|url;"-o";output|] [||])
+  ;;
+
+  let wget_get url output =
+    (execute_external "wget" [|url;"-o";output|] [||])
+  ;;
+
   let tar_extract filepath dest = 
     (execute_external "tar" [|"xf";filepath;dest|] [||])
   ;;

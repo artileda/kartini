@@ -6,10 +6,18 @@ This section responsible for package metadata
 *)
 
 type t = {
+  (* for pacakage name*)
   name: string;
   version: string;
   description: string;
   src: string list;
+  (* for pacakage runtime deps*)
+  deps: string list;
+  (* for pacakage compile deps*)
+  dev_deps: string list [@key "dev-deps"];
+  buildscript: string [@key "build-script"];
+  preremove: string [@key "post-install"];
+  postinstall: string [@key "pre-remove"];
 }[@@deriving yaml];;
 
 type src_types =
@@ -62,11 +70,37 @@ let evaluate_src_type src_url =
   else LocalFile src_url
 ;;
 
+let get_src t = 
+    List.map (fun m -> (evaluate_src_type m)) t.src
+;;
+
+let get_filename t = 
+  let filename x = 
+    x 
+    |> Str.split_delim (Str.regexp "/") 
+    |> List.rev
+    |> List.hd 
+  in
+  List.map (
+    fun (x: src_types) ->
+      match x with
+      | RemoteArchive url | RemoteFile url | LocalFile url ->  url |> filename
+      | GitRepo x -> let url,_ = x in 
+        url |> filename
+  ) (get_src t)
+;;
+
 let inspect_t t = 
   print_endline ("name: " ^ t.name);
   print_endline ("version: " ^ t.version);
   print_endline ("description: " ^t.description);
-  print_endline "src:";
+  print_endline "src: ";
   List.iter (fun m -> ("\t" ^ m) |> print_endline) t.src;
+  print_endline "deps: ";
+  List.iter (fun m -> ("\t" ^ m) |> print_endline) t.deps;
+  print_endline "dev-deps: ";
+  List.iter (fun m -> ("\t" ^ m) |> print_endline) t.dev_deps;
+  print_endline "build-script";
+  print_endline t.buildscript;
   ()
 ;;
