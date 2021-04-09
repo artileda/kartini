@@ -9,8 +9,8 @@ homepage: "https://github.com/onigura/kartinii"
 doc: "-"
 bug-reports: "https://github.com/onigura/kartinii/issues"
 depends: [
-  "dune" {>= "2.7.1"}
-  "ocaml" {>= "4.10.0"}
+  "dune" {>= "2.8.5"}
+  "ocaml" {>= "4.12.0"}
   "ppx_deriving_yaml" {>= "0.1.0"}
   "yaml" {>="2.1.0"}
 ]
