@@ -5,6 +5,7 @@ Simple package administrator for *nix-land.
 ### Dependencies
 
 - libyaml
+- busybox/coreutils
 
 ### Recommended toolchain for development
 
