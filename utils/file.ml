@@ -9,6 +9,12 @@ let read filepath =
   really_input_string buff (in_channel_length buff)
 ;;
 
+let write content filepath =
+  let _file = open_out filepath in
+  Printf.fprintf _file "%s" content;
+  close_out _file;
+;;
+
 (* let make_dir t = 
   match Sys.is_directory t with 
   | true -> ()

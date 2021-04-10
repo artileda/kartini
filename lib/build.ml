@@ -1,5 +1,6 @@
 open System__Hq
 open Utils__Process
+open Utils__File
 open Data__Metadata
 
 let extract_src t = 
@@ -26,4 +27,18 @@ let extract_src t =
    | false -> ()
 ;;
 
-let set_tmp_env = ();;
+let build_time  t =
+  let bin_tmp = ((map "bin_src") ^ "/" ^ t.name) and src_tmp = ((map "tmp_src") ^ "/" ^ t.name) in
+
+  extract_src t |> ignore ;
+  Sys.chdir src_tmp;
+
+  (* Write build script to temprorary source path*)
+  write (src_tmp ^ "/build.sh") t.buildscript;
+  execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
+
+  (* To execute postinstallation script after
+  write (src_tmp ^ "/postinstall.sh") t.postinstall;
+  execute_external "sh" [|(src_tmp ^ "/postinstall.sh")|] [||] |> ignore; *)
+
+;;
