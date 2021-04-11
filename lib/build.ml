@@ -27,8 +27,10 @@ let extract_src t =
    | false -> ()
 ;;
 
-let build_time  t =
-  let bin_tmp = ((map "bin_src") ^ "/" ^ t.name) and src_tmp = ((map "tmp_src") ^ "/" ^ t.name) in
+let build_time t =
+  let bin_tmp = ((map "bin_src") ^ "/" ^ t.name) 
+  and src_tmp = ((map "tmp_src") ^ "/" ^ t.name) 
+  and cache_bin = ((map "tmp_src") ^ "/" ^ t.name) in
 
   extract_src t |> ignore ;
   Sys.chdir src_tmp;
@@ -37,8 +39,24 @@ let build_time  t =
   write (src_tmp ^ "/build.sh") t.buildscript;
   execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
 
-  (* To execute postinstallation script after
-  write (src_tmp ^ "/postinstall.sh") t.postinstall;
-  execute_external "sh" [|(src_tmp ^ "/postinstall.sh")|] [||] |> ignore; *)
+  (* TODO: making manifest *)
+  let manifest = List.map (
+      fun x -> 
+        Str.replace_first (Str.regexp bin_tmp) "" x 
+    ) (scan_dir bin_tmp) in
+  let manifest_home = (bin_tmp ^ "/var/db/kartini/installed") in
+  
+  Sys.mkdir manifest_home 0555;
+  match (Sys.is_directory manifest_home) with 
+  | true -> 
+    let arrayJoinStr x = String.concat "\n" x in 
+    write (arrayJoinStr manifest) (manifest_home ^ "/") |> ignore
+  | false -> ();
 
+
+  (* Making binary archive*)
+  Sys.mkdir cache_bin 0555;
+  match Sys.is_directory cache_bin with 
+    | true -> execute_external "tar" [|"cJf";(cache_bin ^ "/" ^ t.version ^ ".tar.xz");bin_tmp|] [||] |> ignore;
+    | false -> ()
 ;;

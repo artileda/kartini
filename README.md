@@ -2,27 +2,34 @@
 
 Simple package administrator for *nix-land.
 
-## Taxonomies
+### Folder Taxonomies
 
-- bin
+- **bin**
+  
 This folder for entry point execution.
 
-- container
+- **container**
+
 This just folder to mimic filesystem hierarchy.
 
-- data
+- **data**
+  
 This contain any data structure definiton.
 
-- lib
+- **lib**
+  
 This folder contain file for doing task like get,build,etc.
 
-- system
+- **system**
+  
 This for filesystem business thingy, like definiton of cache,repo and system config.
 
-- test
+- **test**
+  
 for test function on this whole project.
 
-- utils
+- **utils**
+  
 Utility function like interop to another process, write file and any helper functions.
 
 ### Dependencies

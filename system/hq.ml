@@ -24,7 +24,7 @@ let map dest =
   (
     match dest with
       | "target" -> Option.get sys_path
-      | "installed_metadata" -> ((sys_path |> Option.get) ^ "/var/db/kartini/installed")
+      | "target_metadata" -> ((sys_path |> Option.get) ^ "/var/db/kartini/installed")
       | "tmp_bin" -> ("/var/tmp/kartini/bin-" ^ current_pid)
       | "tmp_src" -> ("/var/tmp/kartini/src-" ^ current_pid)
       | "cache_src" -> ((cache_path |> Option.get) ^ "/kartini/src")

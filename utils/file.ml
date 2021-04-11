@@ -15,10 +15,19 @@ let write content filepath =
   close_out _file;
 ;;
 
-(* let make_dir t = 
-  match Sys.is_directory t with 
-  | true -> ()
-  | false -> Sys.mkdir t
-
-  t
-;; *)
+(* https://gist.github.com/lindig/be55f453026c65e761f4e7012f8ab9b5 *)
+(* Thank you @lindig *)
+let scan_dir dir =
+  let rec loop result = function
+    | f::fs when Sys.is_directory f ->
+          Sys.readdir f
+          |> Array.to_list
+          |> List.map (Filename.concat f)
+          |> List.append fs
+          |> loop result
+    | f::fs -> loop (f::result) fs
+    | []    -> result
+  in
+    loop [] [dir]
+  
+;;
