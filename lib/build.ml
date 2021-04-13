@@ -44,13 +44,13 @@ let build_time t =
       fun x -> 
         Str.replace_first (Str.regexp bin_tmp) "" x 
     ) (scan_dir bin_tmp) in
-  let manifest_home = (bin_tmp ^ "/var/db/kartini/installed") in
+  let manifest_home = (bin_tmp ^ "/var/db/kartini/installed/" ^ t.name) in
   
   Sys.mkdir manifest_home 0555;
   match (Sys.is_directory manifest_home) with 
   | true -> 
     let arrayJoinStr x = String.concat "\n" x in 
-    write (arrayJoinStr manifest) (manifest_home ^ "/") |> ignore
+    write (arrayJoinStr manifest) (manifest_home ^ "/" ^ (t.version)) |> ignore
   | false -> ();
 
 
