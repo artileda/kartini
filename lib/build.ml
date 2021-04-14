@@ -40,11 +40,12 @@ let build_time t =
   execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
 
   (* TODO: making manifest *)
-  let manifest = List.map (
+  let manifest_home = (bin_tmp ^ "/var/db/kartini/installed/" ^ t.name) in
+  let manifest = (List.map (
       fun x -> 
         Str.replace_first (Str.regexp bin_tmp) "" x 
-    ) (scan_dir bin_tmp) in
-  let manifest_home = (bin_tmp ^ "/var/db/kartini/installed/" ^ t.name) in
+    ) (scan_dir bin_tmp)) @ [(manifest_home ^ "/" ^ (t.version))] in
+  
   
   Sys.mkdir manifest_home 0555;
   match (Sys.is_directory manifest_home) with 
