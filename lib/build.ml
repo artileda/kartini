@@ -44,14 +44,15 @@ let build_time t =
   let manifest = (List.map (
       fun x -> 
         Str.replace_first (Str.regexp bin_tmp) "" x 
-    ) (scan_dir bin_tmp)) @ [(manifest_home ^ "/" ^ (t.version))] in
+    ) (scan_dir bin_tmp)) @ [(manifest_home ^ "/index");(manifest_home ^ "/version")] in
   
   
   Sys.mkdir manifest_home 0555;
   match (Sys.is_directory manifest_home) with 
   | true -> 
     let arrayJoinStr x = String.concat "\n" x in 
-    write (arrayJoinStr manifest) (manifest_home ^ "/" ^ (t.version)) |> ignore
+    write (t.version) (manifest_home ^ "/version") |> ignore;
+    write (arrayJoinStr manifest) (manifest_home ^ "/index") |> ignore;
   | false -> ();
 
 
