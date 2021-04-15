@@ -1,6 +1,6 @@
 ## Kartini
 
-Simple package administrator for *nix-land.
+Simple package administrator for *nix-land. Inspired from KISS package system.
 
 ### Folder Taxonomies
 

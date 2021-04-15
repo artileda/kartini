@@ -18,6 +18,21 @@ let repository_path = Sys.getenv_opt "KARTINI_PATH" ;;
 
 let cache_path = Sys.getenv_opt "KARTINI_CACHE" ;;
 
+let check_env_config =
+
+  match sys_path with
+  | Some d -> print_endline ("KARTINI_ROOT: " ^ d)
+  | None -> print_endline "KARTINI_ROOT not setted, this is path for your target installation.";
+
+  match repository_path with
+  | Some d -> print_endline ("KARTINI_PATH: " ^ d)
+  | None -> print_endline "KARTINI_PATH not setted, this is path for your repository definition";
+
+  match cache_path with
+  | Some d -> print_endline ("KARTINI_CACHE: " ^ d)
+  | None -> print_endline "KARTINI_CACHE not setted, this is for archiving package resource and it binary form.";
+;;
+
 (*
   This function map all operational directory
 *)

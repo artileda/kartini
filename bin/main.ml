@@ -1,5 +1,6 @@
 open Cmdliner
 open Kartini__Get
+open System__Hq
 
 (* Real Function *)
 let add =
@@ -32,4 +33,9 @@ let info_t =
   Term.info "kartini" ~version:"0.0.1" ~doc ~exits:Term.default_exits
 ;;
 
-let () = Term.(exit @@ eval_choice info_t [add_t;get_t]);;
+let env_t =
+  Term.(const check_env_config),
+  Term.info "env" ~doc:"Check environment variable required by kartini." ~exits:Term.default_exits
+;;
+
+let () = Term.(exit @@ eval_choice info_t [add_t;get_t;env_t]);;
