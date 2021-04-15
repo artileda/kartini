@@ -5,20 +5,21 @@ authors: [
   "Yoghaswara Hadi Nugroho <->"
 ]
 license: "MIT"
-homepage: "https://github.com/onigura/kartinii"
+homepage: "https://github.com/52ml/kartini"
 doc: "-"
-bug-reports: "https://github.com/onigura/kartinii/issues"
+bug-reports: "https://github.com/52ml/kartini/issues"
 depends: [
   "dune" {>= "2.8.5"}
   "ocaml" {>= "4.12.0"}
   "ppx_deriving_yaml" {>= "0.1.0"}
   "yaml" {>="2.1.0"}
+  "cmdliner" {>= "1.0.4"}
 ]
 build: [
   ["dune" "build" "-p" name "-j" jobs]
   ["dune" "runtest" "-p" name "-j" jobs] {with-test}
 ]
-dev-repo: "git+https://github.com/onigura/kartinii.git"
+dev-repo: "git+https://github.com/52ml/kartini.git"
 synopsis: "Minimalist package administrator"
 description: """
 """
