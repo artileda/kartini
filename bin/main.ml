@@ -1,5 +1,5 @@
 open Cmdliner
-
+open Kartini__Get
 
 (* Real Function *)
 let add =
@@ -7,7 +7,7 @@ let add =
 ;;
 
 let get package_name =
-  List.iter (fun x -> print_endline x ) package_name
+  List.iter (fun x -> get_time x ) package_name
 ;;
 
 (* Term Function *)

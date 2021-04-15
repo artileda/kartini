@@ -1,3 +1,6 @@
+KARTINI_CACHE=$(pwd)/../container
+KARTINI_PATH="$(pwd)/../tesbed" 
+
 run:
 	dune exec kartini
 
