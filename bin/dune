@@ -1,4 +1,4 @@
 (executable
  (public_name kartini)
  (name main)
- (libraries kartini data))
+ (libraries kartini data cmdliner))
