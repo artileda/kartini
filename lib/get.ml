@@ -27,3 +27,14 @@ let grab_source t =
 
 ;; 
 
+let get_time package_name = 
+  let repo_path = find_repo_package package_name in
+  let metadata_path = (
+    match repo_path |> List.length with 
+      | 0 -> failwith "Please specify package want to get"
+      | _ -> List.hd repo_path
+  ) in
+  let descriptor = file_to_t metadata_path in 
+
+  grab_source descriptor
+;;

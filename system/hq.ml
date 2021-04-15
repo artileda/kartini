@@ -10,6 +10,8 @@ KARTINI_CACHE -> For source and binary cache storage path
 
 *)
 
+open Utils__Map
+
 let sys_path = Sys.getenv_opt "KARTINI_ROOT" ;;
 
 let repository_path = Sys.getenv_opt "KARTINI_PATH" ;;
@@ -50,7 +52,10 @@ let is_cached packname =
 
 let find_repo_package packname =
   let repo_paths = Str.split (Str.regexp ":") (Option.get repository_path) in 
-  let founds = List.map (fun m -> (Sys.file_exists (m ^ "/" ^ packname ^ "/metadata.yml")))  repo_paths in
-
-  List.fold_left (fun x y -> x || y) false founds
+  map_partial (fun m -> 
+      let path = m ^ "/" ^ packname ^ "/metadata.yml" in
+      match (Sys.file_exists (path)) with
+        | true -> Some path 
+        | false -> None
+  ) repo_paths
 ;;

@@ -5,6 +5,7 @@ This section responsible for package metadata
 
 *)
 open Utils__Map
+open Utils__File
 
 type t = {
   (* for pacakage name*)
@@ -49,6 +50,10 @@ let str_to_t t =
   | Error msg -> 
     match msg with
     | `Msg res -> Error res
+;;
+
+let file_to_t path =
+  Result.get_ok (str_to_t (read path))
 ;;
 
 let evaluate_src_type src_url output =
