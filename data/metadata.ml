@@ -53,7 +53,9 @@ let str_to_t t =
 ;;
 
 let file_to_t path =
-  Result.get_ok (str_to_t (read path))
+  match str_to_t (read path) with 
+  | Ok t -> t 
+  | Error d -> failwith d
 ;;
 
 let evaluate_src_type src_url output =
