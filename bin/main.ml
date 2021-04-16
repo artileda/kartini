@@ -3,8 +3,11 @@ open Kartini__Get
 open System__Hq
 
 (* Real Function *)
-let add =
-  ()
+let add () =
+  print_endline "test"
+;;
+let env () =
+  (check_env ())
 ;;
 
 let get package_name =
@@ -14,7 +17,7 @@ let get package_name =
 (* Term Function *)
 let add_t =
   let doc = "Adding binary archive to system" in
-  Term.(const add),
+  Term.(const add $ const ()),
   Term.info "add" ~doc
 ;;
 
@@ -27,15 +30,15 @@ let get_t =
   Term.info "get" ~doc
 ;;
 
+let env_t =
+  Term.(const env $ const ()),
+  Term.info "env" ~doc:"Check environment variable required by kartini." ~exits:Term.default_exits
+;;
+
 let info_t = 
   let doc = "Simple Package Administrator" in
   Term.(ret (const (fun _ -> `Help (`Pager, None)) $ const ())),
   Term.info "kartini" ~version:"0.0.1" ~doc ~exits:Term.default_exits
-;;
-
-let env_t =
-  Term.(const check_env_config),
-  Term.info "env" ~doc:"Check environment variable required by kartini." ~exits:Term.default_exits
 ;;
 
 let () = Term.(exit @@ eval_choice info_t [add_t;get_t;env_t]);;
