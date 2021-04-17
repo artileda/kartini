@@ -4,6 +4,9 @@ This section responsible as helper for any operation
  with file and filesystem manipulation utilities.
 
 *)
+
+open Process
+
 let read filepath = 
   let buff = open_in filepath in
   really_input_string buff (in_channel_length buff)
@@ -30,4 +33,8 @@ let scan_dir dir =
   in
     loop [] [dir]
   
+;;
+
+let mkdir_p path =
+  (execute_external "mkdir" [|"-p";path|] [||]) |> ignore
 ;;
