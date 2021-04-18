@@ -27,7 +27,18 @@ let extract_src t =
    | false -> ()
 ;;
 
-let build_time t =
+let build_time package_name =
+
+  (* Need Refactor*)
+  let repo_path = find_repo_package package_name in
+  let metadata_path = (
+    match repo_path |> List.length with 
+      | 0 -> failwith "Package not found on KARTINI_PATH"
+      | _ -> List.hd repo_path
+  ) in
+  let t = file_to_t metadata_path in 
+
+
   let bin_tmp = ((map "bin_src") ^ "/" ^ t.name) 
   and src_tmp = ((map "tmp_src") ^ "/" ^ t.name) 
   and cache_bin = ((map "tmp_src") ^ "/" ^ t.name) in
