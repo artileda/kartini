@@ -15,7 +15,7 @@ let execute_external (program: string) (program_args: string array) (env: string
 module Interop = struct
 
   let curl_get url output =
-    (execute_external "curl" [|url;"-o";output|] [||])
+    (execute_external "curl" [|url;"-o";output;"-L"|] [||])
   ;;
 
   let wget_get url output =
