@@ -8,6 +8,9 @@ run:
 get:
 	dune exec kartini -- get $(PACKAGES)
 
+build:
+	dune exec kartini -- build $(PACKAGES)
+
 env:
 	dune exec kartini -- env
 

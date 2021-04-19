@@ -1,5 +1,6 @@
 open Cmdliner
 open Kartini__Get
+open Kartini__Build
 open System__Hq
 
 (* Real Function *)
@@ -11,7 +12,7 @@ let env () =
 ;;
 
 let build package_name =
-  List.iter ( fun x -> print_endline x ) package_name 
+  List.iter ( fun x -> build_time x ) package_name 
   |> ignore
 ;;
 

@@ -8,7 +8,7 @@ let extract_src t =
   let src_cached = ((map "cache_src") ^ "/" ^ t.name) in
   let src_tmp = ((map "tmp_src") ^ "/" ^ t.name) in
 
-  Sys.mkdir src_tmp 0555;
+  mkdir_p src_tmp;
 
   match ((Sys.is_directory src_cached) && (Sys.is_directory src_tmp)) with 
   | true ->
@@ -16,6 +16,7 @@ let extract_src t =
         fun (src: src_types) ->
           match src with 
           | RemoteArchive (url,_) -> 
+            (* print_endline (src_cached ^ "/" ^ (url |> filename)); *)
             Interop.tar_extract (src_cached ^ "/" ^ (url |> filename)) (src_tmp) |> ignore
           | RemoteFile (url,_) ->
             Interop.copy_file (src_cached ^ "/" ^ (url |> filename)) (src_tmp) |> ignore
@@ -47,7 +48,7 @@ let build_time package_name =
   Sys.chdir src_tmp;
 
   (* Write build script to temprorary source path*)
-  write (src_tmp ^ "/build.sh") t.buildscript;
+  write  t.buildscript (src_tmp ^ "/build.sh");
   execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
 
   (* TODO: making manifest *)
@@ -58,7 +59,7 @@ let build_time package_name =
     ) (scan_dir bin_tmp)) @ [(manifest_home ^ "/manifest");(manifest_home ^ "/version")] in
   
   
-  Sys.mkdir manifest_home 0555;
+  mkdir_p manifest_home;
   match (Sys.is_directory manifest_home) with 
   | true -> 
     let arrayJoinStr x = String.concat "\n" x in 
@@ -68,7 +69,7 @@ let build_time package_name =
 
 
   (* Making binary archive*)
-  Sys.mkdir cache_bin 0555;
+  mkdir_p cache_bin;
   match Sys.is_directory cache_bin with 
     | true -> execute_external "tar" [|"cJf";(cache_bin ^ "/" ^ t.version ^ ".tar.xz");bin_tmp|] [||] |> ignore;
     | false -> ()
