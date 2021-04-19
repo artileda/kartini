@@ -10,6 +10,11 @@ let env () =
   (check_env ())
 ;;
 
+let build package_name =
+  List.iter ( fun x -> print_endline x ) package_name 
+  |> ignore
+;;
+
 let get package_name =
   List.iter (fun x -> get_time x ) package_name
 ;;
@@ -19,6 +24,15 @@ let add_t =
   let doc = "Adding binary archive to system" in
   Term.(const add $ const ()),
   Term.info "add" ~doc
+;;
+
+let build_t =
+  let doc = "To build package" in 
+  let package_name = 
+    Arg.(value & (pos_all string) [] & info [] ~docv:"packages name" ~doc:"package name")
+  in
+  Term.(const build $  package_name),
+  Term.info "build" ~doc
 ;;
 
 let get_t = 
@@ -41,4 +55,4 @@ let info_t =
   Term.info "kartini" ~version:"0.0.1" ~doc ~exits:Term.default_exits
 ;;
 
-let () = Term.(exit @@ eval_choice info_t [add_t;get_t;env_t]);;
+let () = Term.(exit @@ eval_choice info_t [add_t;build_t;get_t;env_t]);;

@@ -1,3 +1,2 @@
-open Data__Metadata
 
-val build_time : t -> unit;;
+val build_time : string -> unit;;
