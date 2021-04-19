@@ -40,18 +40,19 @@ let build_time package_name =
   let t = file_to_t metadata_path in 
 
 
-  let bin_tmp = ((map "bin_src") ^ "/" ^ t.name) 
+  let bin_tmp = ((map "tmp_bin") ^ "/" ^ t.name) 
   and src_tmp = ((map "tmp_src") ^ "/" ^ t.name) 
-  and cache_bin = ((map "tmp_src") ^ "/" ^ t.name) in
+  and cache_bin = ((map "cache_bin") ^ "/" ^ t.name) in
 
   extract_src t |> ignore ;
   Sys.chdir src_tmp;
 
   (* Write build script to temprorary source path*)
-  write  t.buildscript (src_tmp ^ "/build.sh");
+  write t.buildscript (src_tmp ^ "/build.sh");
   execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
 
   (* TODO: making manifest *)
+  mkdir_p bin_tmp;
   let manifest_home = (bin_tmp ^ "/var/db/kartini/installed/" ^ t.name) in
   let manifest = (List.map (
       fun x -> 
@@ -61,16 +62,16 @@ let build_time package_name =
   
   mkdir_p manifest_home;
   match (Sys.is_directory manifest_home) with 
-  | true -> 
-    let arrayJoinStr x = String.concat "\n" x in 
-    write (t.version) (manifest_home ^ "/version") |> ignore;
-    write (arrayJoinStr manifest) (manifest_home ^ "/manifest") |> ignore;
-  | false -> ();
+    | true -> 
+      let arrayJoinStr x = String.concat "\n" x in 
+      write (t.version) (manifest_home ^ "/version") |> ignore;
+      write (arrayJoinStr manifest) (manifest_home ^ "/manifest") |> ignore;
+    | false -> ();
 
 
   (* Making binary archive*)
   mkdir_p cache_bin;
-  match Sys.is_directory cache_bin with 
+  match ((Sys.is_directory cache_bin) && (Sys.is_directory bin_tmp)) with 
     | true -> execute_external "tar" [|"cJf";(cache_bin ^ "/" ^ t.version ^ ".tar.xz");bin_tmp|] [||] |> ignore;
     | false -> ()
 ;;
