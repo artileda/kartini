@@ -7,6 +7,11 @@ open System__Hq
 let add () =
   print_endline "test"
 ;;
+
+let clean_tmp () =
+  print_endline "Not Implemented, yet!"
+;;
+
 let env () =
   (check_env ())
 ;;
@@ -48,6 +53,11 @@ let get_t =
 let env_t =
   Term.(const env $ const ()),
   Term.info "env" ~doc:"Check environment variable required by kartini." ~exits:Term.default_exits
+;;
+
+let clean_t =
+  Term.(const env $ const ()),
+  Term.info "cleantmp" ~doc:"Check environment variable required by kartini." ~exits:Term.default_exits
 ;;
 
 let info_t = 

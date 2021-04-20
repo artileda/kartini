@@ -30,6 +30,7 @@ let map dest =
       | "target_metadata" -> ((sys_path |> Option.get) ^ "/var/db/kartini/installed")
       | "tmp_bin" -> ("/var/tmp/kartini/bin-" ^ current_pid)
       | "tmp_src" -> ("/var/tmp/kartini/src-" ^ current_pid)
+      | "tmp_dir" -> ("/var/tmp/kartini")
       | "cache_src" -> ((cache_path |> Option.get) ^ "/kartini/src")
       | "cache_bin" -> ((cache_path |> Option.get) ^ "/kartini/bin")
       | _ -> ""
