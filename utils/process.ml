@@ -23,7 +23,7 @@ module Interop = struct
   ;;
 
   let tar_extract filepath dest = 
-    (execute_external "tar" [|"xf";filepath;"-C";dest|] [||])
+    (execute_external "tar" [|"xf";filepath;"-C";dest;"--strip-components=1"|] [||])
   ;;
 
   let git_clone repository_link dest = 
