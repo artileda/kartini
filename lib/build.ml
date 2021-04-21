@@ -39,14 +39,15 @@ let build_time package_name =
   ) in
   let t = file_to_t metadata_path in 
 
-
   let bin_tmp = ((map "tmp_bin") ^ "/" ^ t.name) 
   and src_tmp = ((map "tmp_src") ^ "/" ^ t.name) 
   and cache_bin = ((map "cache_bin") ^ "/" ^ t.name) in
 
+  print_endline "[*] Extracting source packages...";
   extract_src t |> ignore ;
   Sys.chdir src_tmp;
 
+  print_endline "[*] Building source packages...";
   (* Write build script to temprorary source path*)
   write t.buildscript (src_tmp ^ "/build.sh");
   execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
@@ -57,21 +58,21 @@ let build_time package_name =
   let manifest = (List.map (
       fun x -> 
         Str.replace_first (Str.regexp bin_tmp) "" x 
-    ) (scan_dir bin_tmp)) @ [(manifest_home ^ "/manifest");(manifest_home ^ "/version")] in
+    ) ((scan_dir bin_tmp)) @ [(manifest_home ^ "/manifest");(manifest_home ^ "/version")]) in
   
   
   mkdir_p manifest_home;
   match (Sys.is_directory manifest_home) with 
-    | true -> 
+    | true ->
       let arrayJoinStr x = String.concat "\n" x in 
       write (t.version) (manifest_home ^ "/version") |> ignore;
       write (arrayJoinStr manifest) (manifest_home ^ "/manifest") |> ignore;
-    | false -> ();
 
-
-  (* Making binary archive*)
-  mkdir_p cache_bin;
-  match ((Sys.is_directory cache_bin) && (Sys.is_directory bin_tmp)) with 
-    | true -> execute_external "tar" [|"cJf";(cache_bin ^ "/" ^ t.version ^ ".tar.xz");bin_tmp|] [||] |> ignore;
-    | false -> ()
+      print_endline "[*] Archiiving the system ";
+      (* Making binary archive*)
+      mkdir_p cache_bin;
+      (match ((Sys.is_directory cache_bin) && (Sys.is_directory bin_tmp)) with 
+        | true -> execute_external "tar" [|"cJf";(cache_bin ^ "/" ^ t.version ^ ".tar.xz");bin_tmp|] [||] |> ignore;
+        | false -> print_endline "Error");
+    | false -> failwith "error" |> ignore;
 ;;
