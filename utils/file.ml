@@ -23,8 +23,8 @@ let write content filepath =
 let scan_dir dir =
   print_endline "Scanning";
   let rec loop result = function
-    (* welp need help to always include link file
-    | f::fs when not (Sys.file_exists f) -> loop (f::result) fs *)
+    (* welp need help to always include link file *)
+    | f::fs when not (Sys.file_exists f) -> loop (f::result) fs 
     | f::fs when Sys.is_directory f ->
           Sys.readdir f
           |> Array.to_list

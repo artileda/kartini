@@ -72,7 +72,7 @@ let build_time package_name =
       (* Making binary archive*)
       mkdir_p cache_bin;
       (match ((Sys.is_directory cache_bin) && (Sys.is_directory bin_tmp)) with 
-        | true -> execute_external "tar" [|"cJf";(cache_bin ^ "/" ^ t.version ^ ".tar.xz");bin_tmp|] [||] |> ignore;
+        | true -> execute_external "tar" [|"cJf";(cache_bin ^ "/" ^ t.version ^ ".tar.xz");"-C";bin_tmp;"."|] [||] |> ignore;
         | false -> print_endline "Error");
     | false -> failwith "error" |> ignore;
 ;;
