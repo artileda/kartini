@@ -1,6 +1,6 @@
 export KARTINI_CACHE=$(shell pwd)/container
 export KARTINI_PATH=$(shell pwd)/testbed/var/db/repo
-export KARTINI_ROOT=$(shell pwd)/container
+export KARTINI_ROOT=$(shell pwd)/testbed
 
 run:
 	dune exec kartini
