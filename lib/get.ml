@@ -2,6 +2,7 @@ open Data__Metadata
 open Utils__Process
 open Utils__File
 open System__Hq
+open System__Repository
 
 (* Untested and unfinished *)
 let grab_source t =
@@ -29,13 +30,5 @@ let grab_source t =
 ;; 
 
 let get_time package_name = 
-  let repo_path = find_repo_package package_name in
-  let metadata_path = (
-    match repo_path |> List.length with 
-      | 0 -> failwith "Package not found on KARTINI_PATH"
-      | _ -> List.hd repo_path
-  ) in
-  let descriptor = file_to_t metadata_path in 
-
-  grab_source descriptor
+  package_name |> get_metadata |> grab_source
 ;;

@@ -10,8 +10,6 @@ KARTINI_CACHE -> For source and binary cache storage path
 
 *)
 
-open Utils__Map
-
 let sys_path = Sys.getenv_opt "KARTINI_ROOT" ;;
 
 let repository_path = Sys.getenv_opt "KARTINI_PATH" ;;
@@ -52,19 +50,6 @@ let is_cached packname =
   (bin_cached , src_cached)
 ;;
 
-let find_repo_package packname =
-  let repo_paths = 
-    match repository_path with
-     | Some d ->  Str.split (Str.regexp ":") d
-     | None -> failwith "Repository path is unset, set KARTINI_PATH first." 
-  in
-  map_partial (fun m -> 
-      let path = m ^ "/" ^ packname ^ "/metadata.yml" in
-      match (Sys.file_exists (path)) with
-        | true -> Some path 
-        | false -> None
-  ) repo_paths
-;;
 
 (* 
   Still mistery, why this function need a parameter,

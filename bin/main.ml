@@ -1,11 +1,14 @@
 open Cmdliner
 open Kartini__Get
 open Kartini__Build
+open Kartini__Add
 open System__Hq
 
 (* Real Function *)
-let add () =
-  print_endline "test"
+let add packages =
+  List.iter (fun x -> 
+  install_time x
+  ) packages
 ;;
 
 let clean_tmp () =
@@ -28,7 +31,10 @@ let get package_name =
 (* Term Function *)
 let add_t =
   let doc = "Adding binary archive to system" in
-  Term.(const add $ const ()),
+  let package_name = 
+    Arg.(value & (pos_all string) [] & info [] ~docv:"packages name" ~doc:"package name")
+  in
+  Term.(const add $ package_name),
   Term.info "add" ~doc
 ;;
 

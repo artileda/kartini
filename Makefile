@@ -11,6 +11,9 @@ get:
 build:
 	dune exec kartini -- build $(PACKAGES)
 
+add:
+	dune exec kartini -- add $(PACKAGES)
+
 env:
 	dune exec kartini -- env
 
