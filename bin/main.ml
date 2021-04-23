@@ -2,6 +2,7 @@ open Cmdliner
 open Kartini__Get
 open Kartini__Build
 open Kartini__Add
+open Kartini__Remove
 open System__Hq
 
 (* Real Function *)
@@ -17,6 +18,12 @@ let clean_tmp () =
 
 let env () =
   (check_env ())
+;;
+
+let del packages =
+  List.iter (fun x -> 
+    remove_time x
+  ) packages
 ;;
 
 let build package_name =
@@ -56,6 +63,15 @@ let get_t =
   Term.info "get" ~doc
 ;;
 
+let del_t = 
+  let package_name = 
+    Arg.(value & (pos_all string) [] & info [] ~docv:"packages name" ~doc:"package name")
+  in
+  let doc = "Getting resource of package" in
+  Term.(const del $ package_name),
+  Term.info "del" ~doc
+;;
+
 let env_t =
   Term.(const env $ const ()),
   Term.info "env" ~doc:"Check environment variable required by kartini." ~exits:Term.default_exits
@@ -72,4 +88,4 @@ let info_t =
   Term.info "kartini" ~version:"0.0.1" ~doc ~exits:Term.default_exits
 ;;
 
-let () = Term.(exit @@ eval_choice info_t [add_t;build_t;get_t;env_t]);;
+let () = Term.(exit @@ eval_choice info_t [add_t;del_t;build_t;get_t;env_t]);;
