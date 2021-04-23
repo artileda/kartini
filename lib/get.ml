@@ -5,7 +5,7 @@ open System__Hq
 open System__Repository
 
 (* Untested and unfinished *)
-let grab_source t =
+let grab_source t repo_path=
   let c = ((map "cache_src") ^ "/" ^ t.name) in 
 
   mkdir_p c;
@@ -20,8 +20,8 @@ let grab_source t =
       | RemoteFile (source,_) -> 
         (Interop.curl_get source (c ^ "/" ^ (filename source)) ) 
         |> ignore
-      | LocalFile (source,_) -> 
-        (Interop.copy_file source (c ^ "/" ^ (filename source)))
+      | LocalFile (source,_) ->
+        (Interop.copy_file (repo_path ^ source) (c ^ "/" ^ (filename source)))
         |> ignore
       | _ -> ()
       ) (get_src t)
@@ -30,5 +30,6 @@ let grab_source t =
 ;; 
 
 let get_time package_name = 
-  package_name |> get_metadata |> grab_source
+  let package, metadata_path = get_metadata package_name in 
+  grab_source package metadata_path;
 ;;

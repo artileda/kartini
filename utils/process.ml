@@ -39,6 +39,6 @@ module Interop = struct
   ;;
 
   let copy_file src dest =
-    (execute_external "len" [|src;dest|] [||])
+    (execute_external "ln" [|src;dest|] [||])
   ;;
 end

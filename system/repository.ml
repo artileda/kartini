@@ -22,6 +22,10 @@ let get_metadata package_name =
       | 0 -> failwith "Package not found on KARTINI_PATH"
       | _ -> List.hd repo_path
   ) in
-  file_to_t metadata_path
+  let metadata_dir = 
+    Str.split (Str.regexp "metadata.yml") metadata_path 
+    |> List.hd
+  in
+  (file_to_t metadata_path,metadata_dir)
 ;;
 
