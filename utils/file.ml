@@ -22,21 +22,26 @@ let write content filepath =
 (* Thank you @lindig *)
 let scan_dir dir =
   print_endline "Scanning";
-  let rec loop result = function
+  let memo : string list ref = ref [] in
+  let rec loop = function
     (* welp need help to always include link file *)
-    | f::fs when not (Sys.file_exists f) -> loop (f::result) fs 
+    | [] -> memo
     | f::fs when Sys.is_directory f ->
-          Sys.readdir f
+        Sys.readdir f
           |> Array.to_list
           |> List.map (Filename.concat f)
           |> List.append fs
-          |> loop result
-    | f::fs -> loop (f::result) fs
-    | []    -> result
+          |> loop
+    | f::fs when not (Sys.file_exists f) -> 
+      memo := (f::!memo);
+      loop fs 
+    | f::fs ->  
+      memo := (f::!memo);
+      loop fs
   in
-    loop [] [dir]
-  
+  !(loop [dir])
 ;;
+ 
 
 let mkdir_p path =
   (execute_external "mkdir" [|"-p";path|] [||]) |> ignore

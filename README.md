@@ -35,7 +35,7 @@ Utility function like interop to another process, write file and any helper func
 ### Dependencies
 
 - libyaml
-- busybox/coreutils
+- busybox/coreutils/toybox
 
 ### Recommended toolchain for development
 

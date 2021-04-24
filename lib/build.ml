@@ -46,6 +46,9 @@ let build_time package_name =
 
   print_endline "[*] Extracting source packages...";
   extract_src t |> ignore ;
+
+  mkdir_p src_tmp;
+
   Sys.chdir src_tmp;
 
   print_endline "[*] Building source packages...";
@@ -56,22 +59,29 @@ let build_time package_name =
   (* TODO: making manifest *)
   mkdir_p bin_tmp;
   let manifest_home = (bin_tmp ^ "/var/db/kartini/installed/" ^ t.name) in
-  let manifest_file = List.map (
+  (* let manifest_file = List.map (
       fun x -> 
         List.hd (Str.split (Str.regexp bin_tmp)  x)
-    ) [(manifest_home ^ "/manifest");(manifest_home ^ "/version")] in
-  let manifest = (List.map (
+    ) [(manifest_home ^ "/manifest");(manifest_home ^ "/version")] in *)
+
+  (* let manifest = (List.map (
       fun x -> 
         (Str.replace_first (Str.regexp bin_tmp) "" x)
     ) ((scan_dir bin_tmp)) @ manifest_file) in
-  
+   *)
   
   mkdir_p manifest_home;
   match (Sys.is_directory manifest_home) with 
     | true ->
-      let arrayJoinStr x = String.concat "\n" x in 
+      let manifest_file = String.concat "\n" [(manifest_home ^ "/manifest");(manifest_home ^ "/version")] in 
+
+      execute_external "find" [|(bin_tmp ^ "/" );"-print";(" > " ^ t.name ^ "-" ^ t.version)|] [||] |> ignore;
+
+      let manifest_source = read (src_tmp ^ "/" ^ t.name ^ "-" ^ t.version) in
+
+      
       write (t.version) (manifest_home ^ "/version") |> ignore;
-      write (arrayJoinStr manifest) (manifest_home ^ "/manifest") |> ignore;
+      write (manifest_source ^ manifest_file) (manifest_home ^ "/manifest") |> ignore;
 
       print_endline "[*] Archiiving the system ";
       (* Making binary archive*)
