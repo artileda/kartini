@@ -59,10 +59,11 @@ let build_time package_name =
   (* TODO: making manifest *)
   mkdir_p bin_tmp;
   let manifest_home = (bin_tmp ^ "/var/db/kartini/installed/" ^ t.name) in
-  (* let manifest_file = List.map (
+  let manifest_file = (List.map (
       fun x -> 
         List.hd (Str.split (Str.regexp bin_tmp)  x)
-    ) [(manifest_home ^ "/manifest");(manifest_home ^ "/version")] in *)
+    ) [(manifest_home ^ "/manifest");(manifest_home ^ "/version")])
+  |> String.concat "\n" in
 
   (* let manifest = (List.map (
       fun x -> 
@@ -73,9 +74,9 @@ let build_time package_name =
   mkdir_p manifest_home;
   match (Sys.is_directory manifest_home) with 
     | true ->
-      let manifest_file = String.concat "\n" [(manifest_home ^ "/manifest");(manifest_home ^ "/version")] in 
 
-      execute_external "find" [|(bin_tmp ^ "/" );"-print";(" > " ^ t.name ^ "-" ^ t.version)|] [||] |> ignore;
+      Sys.chdir bin_tmp;
+      execute_external "find" [|("./" );"-print";(" > " ^ src_tmp ^ "/" ^ t.name ^ "-" ^ t.version)|] [||] |> ignore;
 
       let manifest_source = read (src_tmp ^ "/" ^ t.name ^ "-" ^ t.version) in
 
