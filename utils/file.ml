@@ -7,9 +7,13 @@ This section responsible as helper for any operation
 
 open Process
 
-let read filepath = 
-  let buff = open_in filepath in
-  really_input_string buff (in_channel_length buff)
+let read filepath =
+  match Sys.file_exists filepath with 
+  | true ->
+    let buff = open_in filepath in
+    let len = in_channel_length buff in
+    really_input_string buff len
+  | false -> ""
 ;;
 
 let write content filepath =

@@ -1,4 +1,5 @@
 (executable
  (public_name kartini)
  (name main)
+ (flags (-ccopt -static))
  (libraries kartini data system cmdliner))

@@ -9,7 +9,9 @@ let remove_time package =
     let splited_manifest = Str.split_delim (Str.regexp "\n") manifest in
     List.iter (
       fun x ->
-        Sys.remove ((map "target") ^ "/" ^ x)
+        let path = (map "target") ^ "/" ^ x in
+          if not (Sys.file_exists path) then ()
+          else if not (Sys.is_directory path) then Sys.remove path
     ) splited_manifest
     |> ignore
   | false -> ()

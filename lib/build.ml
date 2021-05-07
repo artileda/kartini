@@ -54,7 +54,11 @@ let build_time package_name =
   print_endline "[*] Building source packages...";
   (* Write build script to temprorary source path*)
   write t.buildscript (src_tmp ^ "/build.sh");
-  execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
+
+  (* try *)
+    execute_external "sh" [|(src_tmp ^ "/build.sh");bin_tmp|] [||] |> ignore;
+  (* with 
+    | Sys_error _ -> Printexc.record_backtrace true; *)
 
   (* TODO: making manifest *)
   mkdir_p bin_tmp;
@@ -76,9 +80,9 @@ let build_time package_name =
     | true ->
 
       Sys.chdir bin_tmp;
-      execute_external "find" [|("./" );"-print";(" > " ^ src_tmp ^ "/" ^ t.name ^ "-" ^ t.version)|] [||] |> ignore;
+      execute_external "find" [|("./" );"-print";(" > " ^ src_tmp ^ "/" ^ t.name ^ "@" ^ t.version)|] [||] |> ignore;
 
-      let manifest_source = read (src_tmp ^ "/" ^ t.name ^ "-" ^ t.version) in
+      let manifest_source = read (src_tmp ^ "/" ^ t.name ^ "@" ^ t.version) in
 
       
       write (t.version) (manifest_home ^ "/version") |> ignore;

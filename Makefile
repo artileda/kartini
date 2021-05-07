@@ -1,6 +1,7 @@
 export KARTINI_CACHE=$(shell pwd)/container
 export KARTINI_PATH=$(shell pwd)/testbed/var/db/repo
-export KARTINI_ROOT=$(shell pwd)/testbed
+export KARTINI_ROOT=/media/elsa/1 
+# replace with you target filesystem mounting directory
 
 run:
 	dune exec kartini
@@ -14,6 +15,9 @@ build:
 add:
 	dune exec kartini -- add $(PACKAGES)
 
+del:
+	dune exec kartini -- del $(PACKAGES)
+
 env:
 	dune exec kartini -- env
 
@@ -24,4 +28,4 @@ repl:
 	dune utop
 
 install-deps:
-	opam install dune ppx_deriving_yaml utop ocaml-lsp-server merlin cmdliner
+	opam install dune ppx_deriving_yaml utop ocaml-lsp-server merlin cmdliner core
