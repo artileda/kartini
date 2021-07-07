@@ -13,6 +13,7 @@ type t = {
   version: string;
   description: string;
   src: string list list;
+  binary: bool option;
   (* for pacakage runtime deps*)
   deps: string list;
   (* for pacakage compile deps*)
@@ -110,6 +111,11 @@ let get_filename t =
   ) (get_src t)
 ;;
 
+let is_binary t =
+  match t.binary with
+  | Some d -> d
+  | None -> false
+;;
 
 let inspect_t t = 
   print_endline ("name: " ^ t.name);

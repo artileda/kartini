@@ -1,7 +1,11 @@
 export KARTINI_CACHE=$(shell pwd)/container
-export KARTINI_PATH=$(shell pwd)/testbed/var/db/repo
-export KARTINI_ROOT=/media/elsa/1 
+export KARTINI_PATH=$(shell pwd)/testbed/var/db/musl-repo
+export KARTINI_ROOT=/media/elsa/1#$(shell pwd)/root-musl/#
 # replace with you target filesystem mounting directory
+
+# Musl option
+cc="musl-gcc"
+ldd="musl-ldd"
 
 run:
 	dune exec kartini

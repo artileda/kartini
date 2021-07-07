@@ -12,6 +12,8 @@ let install_time package_name =
     | None -> failwith "KARTINI_ROOT is not setted."
   in
 
+  (* TODO: Checking Dependecies Phase here *)
+
   match Sys.is_directory bin_archive with 
   | true -> (execute_external "tar" [|"xf";(bin_archive ^ "/" ^ package_version ^".tar.xz");"-C";filesystem_path|] [||] |> ignore)
   | false -> ()

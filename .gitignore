@@ -9,3 +9,4 @@ initramfs
 dvp.map
 backup-succes.tar.xz
 misc
+root-musl
