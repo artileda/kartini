@@ -2,6 +2,11 @@
 
 Simple package administrator for *nix-land. Inspired from KISS package system.
 
+# Status
+
+This project is **unnmaintained** but the code still available to public. 
+If you want to continue this project, i gladly to transfer this repo to your.
+
 ### Folder Taxonomies
 
 - **bin**
